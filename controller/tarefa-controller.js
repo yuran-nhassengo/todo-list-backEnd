@@ -95,6 +95,35 @@ const updateTarefa = asyncHandler (async(req,res) =>{
 
 })
 
+const deleteTarefa = asyncHandler (async(req,res) =>{
+
+        const {tarefaId} = req.params
+
+        if(!tarefaId){
+            return res.status(400).json({ message: "Por favor, introduza o id da Tarefa." });
+        }
+
+        try {
+
+            const tarefa = await Tarefa.findByIdAndDelete(tarefaId);
+
+            if (!tarefa) {
+                return res.status(404).json({ message: "Tarefa não encontrado" });
+            }
+
+            res.status(200).json({ message: "Tarefa deletada com sucesso!" });
+            
+        } catch (error) {
+
+            console.error(err);
+            res.status(500).json({ err: "Erro interno do servidor." });
+            
+        }
 
 
-module.exports ={createTarefa,listarTarefasPorUsuario,updateTarefa}
+
+})
+
+
+
+module.exports ={createTarefa,listarTarefasPorUsuario,updateTarefa,deleteTarefa}
