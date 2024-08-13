@@ -23,8 +23,9 @@ const tarefaSchema =  mongoose.Schema({
   },
  
   usuário: {
-    type: Schema.Types.ObjectId,
-    ref: 'Usuario',
+    //type: Schema.Types.ObjectId,
+    //ref: 'Usuario',
+    type:Number,
     required: true
   }
 }, { timestamps: true });

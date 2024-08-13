@@ -18,6 +18,13 @@ app.use(cors());
 
 app.use(express.urlencoded({extended: false}));
 
+app.use((req, res, next) => {
+    req.user = { id: '1234567890' }; 
+    next();
+  });
+
+  app.use('/api',require('./routes/tarefa-route'));
+
 
 app.listen(port,() => console.log(`Listening on http://localhost:${port}`));
 
