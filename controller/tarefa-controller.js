@@ -64,5 +64,37 @@ const listarTarefasPorUsuario = asyncHandler (async (req,res) =>{
 
 })
 
+const updateTarefa = asyncHandler (async(req,res) =>{
 
-module.exports ={createTarefa,listarTarefasPorUsuario}
+        const {tarefaId} = req.params
+
+        try {
+
+            if (!mongoose.Types.ObjectId.isValid(tarefaId)) {
+                return res.status(400).json({ message: "ID da Tarefa inválido." });
+            }
+
+            const tarefa = await Tarefa.findById(tarefaId);
+
+            if (!tarefa) {
+                return res.status(404).json({ message: "Tarefa não encontrado" });
+            }
+
+            const updateTarefa = { ...req.body };
+
+            const updatedTarefa = await Tarefa.findByIdAndUpdate(tarefaId, updateTarefa, { new: true});
+
+       
+            res.status(200).json({ message: "Tarefa atualizada com sucesso!",  updateTarefa });
+            
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ err: "Erro interno do servidor." });
+        }
+
+
+})
+
+
+
+module.exports ={createTarefa,listarTarefasPorUsuario,updateTarefa}
