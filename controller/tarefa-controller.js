@@ -41,6 +41,28 @@ const createTarefa = asyncHandler(async (req,res) => {
     }
 })  
 
+const listarTarefasPorUsuario = asyncHandler (async (req,res) =>{
+
+      const userId = req.user.id
+
+      try {
+
+        const tarefas = await Tarefa.find({usuário:userId});
+
+      if(!tarefas){
+        return res.status(404).json({ message: "Nenhuma Tarefa encontrada." });
+      }
+
+      res.status(200).json(tarefas);
+
+      } catch (error) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro interno do servidor.' });
+      }
 
 
-module.exports ={createTarefa}
+
+})
+
+
+module.exports ={createTarefa,listarTarefasPorUsuario}
